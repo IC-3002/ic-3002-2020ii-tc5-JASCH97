@@ -38,6 +38,22 @@ def generar_aleatorio(n):
 
     return A
 
+def generar_mejor(n):
+	lista = list(range(0,n))
+	return lista
+
+def generar_peor(n):
+	lista = list(range(0,n))
+	nueva_lista = []
+	ultimo_lista = len(lista) - 1
+	for i in lista:
+		nueva_lista.append(lista[ultimo_lista])
+		ultimo_lista -= 1
+	return nueva_lista
+	
+def generar_promedio(n):
+	lista = generar_aleatorio(n)
+	return lista
 
 class PruebasBurbuja(unittest.TestCase):
 
@@ -82,12 +98,37 @@ class PruebasBurbuja(unittest.TestCase):
 
 
     def test_mejor_caso(self):
-        self.fail('Pendiente de implementar')
+        print()
+        best, fitted = big_o.big_o(burbuja_optimizado, generar_mejor, min_n=10, max_n=1000,
+                                   n_measures=100, n_repeats=3, verbose=False,
+                                   classes=[cmpl.Linear, cmpl.Quadratic], return_raw_data=True)
+
+        _graficar(fitted, 'burbuja optimizado')
+
+       
 
 
     def test_peor_caso(self):
-        self.fail('Pendiente de implementar')
+        print()
+        best, fitted = big_o.big_o(burbuja_optimizado, generar_peor, min_n=10, max_n=1000,
+                                   n_measures=100, n_repeats=3, verbose=False,
+                                   classes=[cmpl.Linear, cmpl.Quadratic], return_raw_data=True)
+
+        _graficar(fitted, 'burbuja optimizado')
+
+        if not isinstance(best, big_o.complexities.Quadratic):
+            warnings.warn(
+                f'Complejidad esperada Cuadrática, complejidad estimada {best}')
 
 
     def test_caso_promedio(self):
-        self.fail('Pendiente de implementar')
+        print()
+        best, fitted = big_o.big_o(burbuja_optimizado, generar_promedio, min_n=10, max_n=1000,
+                                   n_measures=100, n_repeats=3, verbose=False,
+                                   classes=[cmpl.Linear, cmpl.Quadratic], return_raw_data=True)
+
+        _graficar(fitted, 'burbuja optimizado')
+
+        if not isinstance(best, big_o.complexities.Quadratic):
+            warnings.warn(
+                f'Complejidad esperada Cuadrática, complejidad estimada {best}')
